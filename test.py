@@ -15,7 +15,7 @@ os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 # Set path to your PDF file
-PDF_PATH = "path to your pdf here"
+PDF_PATH = "advancement-annual-report-2021-22-2023-06-21-no.pdf"
 
 def get_pdf_text(pdf_path):
     text = ""
@@ -54,7 +54,11 @@ def get_conversational_chain():
 def user_input(user_question):
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
-    new_db = FAISS.load_local("faiss_index", embeddings)
+    #new_db = FAISS.load_local("faiss_index", embeddings)
+    # Load a FAISS index with deserialization allowed - Max
+    new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True
+)
+
     docs = new_db.similarity_search(user_question)
 
     chain = get_conversational_chain()
@@ -71,8 +75,8 @@ def response_generator(user_question):
     for word in response.split():
         yield word + " "
 
-st.set_page_config(page_title="UjjwalDeepXIXC", page_icon=r"logo.png", layout="centered", initial_sidebar_state="auto", menu_items=None)
-st.header(":violet[Chat]Bot",divider='rainbow', help = "This bot is designed by Ujjwal Deep to address all of your questions hehe")
+st.set_page_config(page_title="FPU/Sunbird AI", page_icon=r"logo.png", layout="centered", initial_sidebar_state="auto", menu_items=None)
+st.header(":violet[FPU]AI-Bot",divider='rainbow', help = "This bot is an AI Bot")
 st.subheader("Hello! There, How can I help you Today- 👩‍💻")
 st.caption(":violet[what a] :orange[good day] :violet[it is] :violet[today] :blue[ᓚᘏᗢ]")
 
